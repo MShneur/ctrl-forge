@@ -1,0 +1,7 @@
+id: example-project
+name: Example Project
+status: active
+created_at: 2026-07-24T00:00:00+00:00
+summary: >
+  A worked example so you can see what a CTRL-FORGE project looks like before
+  you make your own. Read it, then delete it or keep it — your call.

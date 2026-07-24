@@ -1,0 +1,31 @@
+name: Recommendation
+description: Suggest how an existing part could work better.
+title: "[Recommendation]: "
+labels: ["recommendation"]
+body:
+  - type: textarea
+    id: current
+    attributes:
+      label: What happens now?
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: What should change?
+    validations:
+      required: true
+  - type: textarea
+    id: benefit
+    attributes:
+      label: Who benefits, and how?
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: What could this break or expose?
+  - type: textarea
+    id: example
+    attributes:
+      label: Example

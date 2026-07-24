@@ -1,0 +1,34 @@
+# CTRL-FORGE configuration
+# This is the map. Nothing in the scripts hard-codes a folder name — they
+# read it from here. Want to rename a folder later? Change the value, done.
+# If this file is missing or broken, the tools fall back to these same
+# defaults, so nothing can break by deleting it.
+
+version: 1.0.0
+
+# Where the Forge's own files live. You should not edit anything under here.
+# Updates replace this folder wholesale.
+forge_dir: forge
+
+# Where YOUR stuff lives. The Forge never touches this. Ever.
+mine_dir: mine
+
+# Inside mine/ — your projects and your one settings file.
+projects_dir: mine/projects
+settings_file: mine/settings.yaml
+
+# The four buckets every project gets. Rename them here if you want
+# different words — the Librarian reads these labels, it doesn't assume them.
+buckets:
+  research: research        # inputs, sources, raw material — no conclusions yet
+  decisions: decisions      # settled calls, with the reasoning kept
+  deliverables: deliverables  # finished output
+
+# The handoff file — the thing that survives between sessions.
+handoff_file: HANDOFF.md
+state_file: PROJECT_STATE.yaml
+
+# Update check. This is the ONLY thing that ever touches the network,
+# and it only reads a version number. It never downloads or runs anything.
+update_check:
+  version_url: https://raw.githubusercontent.com/MShneur/ctrl-forge/main/forge/VERSION

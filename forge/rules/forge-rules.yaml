@@ -1,0 +1,42 @@
+# The rules. Read by two things: the validator script (tools/validate_forge.py)
+# and any AI following AGENTS.md. Same file, so they can't drift apart.
+# If the script can't run, an AI walks these by hand and says so in the handoff.
+
+schema_version: 1
+
+rules:
+
+  - id: every-project-has-a-handoff
+    check: Every project folder contains a HANDOFF.md.
+    why: The handoff is the whole point. No handoff, no memory between sessions.
+    severity: error
+
+  - id: no-duplicate-purpose
+    check: >
+      Before creating a file, look at what's already in the target folder.
+      If something already covers that purpose, update it instead of adding
+      a near-duplicate.
+    why: This is the anti-sprawl rule. Stops the folder filling with
+         report-v2-FINAL-actual-final.md
+    severity: warning
+
+  - id: final-work-stays-out-of-research
+    check: Nothing marked "status: final" belongs in the research bucket.
+    why: research/ is for raw inputs. Finished things go to deliverables/.
+    severity: warning
+
+  - id: check-before-create
+    check: >
+      When starting work, list the project folder first. Continue existing
+      work before starting a parallel copy of it.
+    why: Two AIs (or the same one twice) shouldn't fork the same task into
+         two files that then disagree.
+    severity: warning
+
+  - id: nothing-final-leaves-without-a-human
+    check: >
+      Anything marked final does not get published, pushed to a public repo,
+      or shipped outside the project without a human approving it.
+    why: Draft work escaping to the world is the expensive mistake. A human
+         is the gate.
+    severity: error

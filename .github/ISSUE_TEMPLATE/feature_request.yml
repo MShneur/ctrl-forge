@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a new capability.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Which problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: user
+    attributes:
+      label: Who encounters this problem?
+    validations:
+      required: true
+  - type: textarea
+    id: smallest
+    attributes:
+      label: What is the smallest useful version?
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Privacy or compatibility risks

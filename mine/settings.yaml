@@ -1,0 +1,31 @@
+# This file is YOURS.
+#
+# It's the only file you're meant to edit. Forge updates never touch it —
+# they replace the forge/ folder and leave everything under mine/ alone.
+#
+# Everything here is optional. Delete what you don't need.
+
+# Which Forge version you're on. The update checker compares against this.
+forge_version: 1.0.0
+
+# Your own agents. Drop persona files in mine/agents/ and list them here.
+# The Librarian will use yours instead of pointing you at Agents of AI.
+agents: []
+# example:
+# agents:
+#   - mine/agents/my-editor.md
+#   - mine/agents/my-red-team.md
+
+# Your own rules, added on top of the Forge defaults.
+extra_rules: []
+# example:
+# extra_rules:
+#   - "Always write dates as YYYY-MM-DD."
+#   - "No project ships without a one-paragraph summary."
+
+# Preferences the Librarian should respect.
+preferences:
+  # default status for new work: draft | review | final
+  default_status: draft
+  # remind me to check for Forge updates at session start? true | false
+  update_reminder: true
