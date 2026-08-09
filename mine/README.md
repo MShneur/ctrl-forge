@@ -1,22 +1,36 @@
-# mine/ — this is your half
+# mine/ — private work in your copy, templates only upstream
 
-Everything in here is yours. The Forge never touches it. When you update the
-Forge, only the `forge/` folder changes — this folder is left exactly as you
-left it.
+This folder has **two different contexts**:
 
-What lives here:
+1. In your own **private CTRL-FORGE copy**, `mine/` is where your real projects and settings live and may be tracked normally.
+2. In the canonical public `MShneur/ctrl-forge` repository, `mine/` is **template/example space only**. Personal project files must never be committed there.
 
-- **`settings.yaml`** — the one file you edit. Your version, your agents, your
-  rules, your preferences.
-- **`projects/`** — your actual work. One folder per project.
-- **`agents/`** *(optional)* — your own personas, if you have them. List them in
-  settings.yaml and the Librarian uses yours.
+The public upstream allowlist is intentionally narrow:
+
+- `mine/README.md`
+- `mine/settings.yaml` as the generic/default template
+- `mine/projects/example-project/**`
+
+Anything else under `mine/` must stay out of the public upstream.
+
+## In a private copy
+
+Typical contents are:
+
+- **`settings.yaml`** — your version, agents, rules, and preferences.
+- **`projects/`** — your actual work, one folder per project.
+- **`agents/`** *(optional)* — your own personas.
 
 Start a project:
 
-```
+```bash
 python tools/new_project.py "My Project"
 ```
 
-That's it. Go make something. The `example-project` folder next door shows you
-what a project looks like — read it, then delete it or keep it, your call.
+The `example-project` folder shows the expected structure.
+
+## Before publishing or contributing
+
+If you make your copy/fork public or send changes back upstream, delete personal `mine/` content first. Do not publish manuscripts, research, private prompts, project handoffs, client/user data, or personal settings. Run `python tools/public_boundary_check.py` against the public-upstream shape before publication.
+
+See `PUBLIC_BOUNDARY.md` for the canonical policy.

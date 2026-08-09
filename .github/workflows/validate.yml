@@ -12,6 +12,9 @@ jobs:
           python-version: "3.x"
       - name: Compile tools
         run: python -m compileall tools
+      - name: Enforce canonical public boundary
+        if: github.repository == 'MShneur/ctrl-forge'
+        run: python tools/public_boundary_check.py
       - name: Privacy scan
         run: python tools/privacy_scan.py .
       - name: Validate forge
