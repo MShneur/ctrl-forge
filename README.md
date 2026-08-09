@@ -67,16 +67,6 @@ The normal setup is a private copy linked conceptually to this public template. 
 
 ---
 
-## The AI Duct Tape Collection
-
-- **[CTRL-FORGE](https://github.com/MShneur/ctrl-forge)** — durable project memory and handoffs.
-- **[CTRL-AI](https://github.com/MShneur/CTRL-AI)** — AI reasoning/governance framework.
-- **[R-Duck](https://github.com/MShneur/R-Duck)** — AI operating layer.
-- **[Agents of AI](https://github.com/MShneur/Agents-of-AI)** — reusable specialists and workflows.
-- **[Ghost in the Loop](https://github.com/MShneur/ghost-in-the-loop)** — cross-AI handoffs and export.
-
----
-
 ## Honest limits
 
 - Folders are not encryption. Private means a private repository with appropriate access controls.
