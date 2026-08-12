@@ -1,27 +1,38 @@
 # mine/ — private work in your copy, templates only upstream
 
-This folder has **two different contexts**:
+Read `../REPO_MODE.yaml` first.
 
-1. In your own **private CTRL-FORGE copy**, `mine/` is where your real projects and settings live and may be tracked normally.
-2. In the canonical public `MShneur/ctrl-forge` repository, `mine/` is **template/example space only**. Personal project files must never be committed there.
+## Canonical public upstream
 
-The public upstream allowlist is intentionally narrow:
+If `REPO_MODE.yaml` says:
 
-- `mine/README.md`
-- `mine/settings.yaml` as the generic/default template
-- `mine/projects/example-project/**`
+```yaml
+mode: public-template-upstream
+```
 
-Anything else under `mine/` must stay out of the public upstream.
+then this repository is public template/system space. **Do not put real work here.** The only tracked `mine/` content allowed upstream is:
 
-## In a private copy
+- `mine/README.md`;
+- `mine/settings.yaml` as generic/default template data;
+- `mine/projects/example-project/**` as a synthetic worked example.
 
-Typical contents are:
+Anything else under `mine/` must stay out of the public upstream. Real project content is also forbidden elsewhere in canonical public CTRL-FORGE, including top-level `projects/**`.
 
-- **`settings.yaml`** — your version, agents, rules, and preferences.
-- **`projects/`** — your actual work, one folder per project.
-- **`agents/`** *(optional)* — your own personas.
+## In your private copy
 
-Start a project:
+After you create your own repository from this template:
+
+1. verify the repository visibility is **Private**;
+2. edit `REPO_MODE.yaml` to `mode: private-copy`;
+3. then use `mine/` for your real projects and settings.
+
+Typical private-copy contents are:
+
+- `settings.yaml` — your version, agents, rules, and preferences;
+- `projects/` — your actual work, one folder per project;
+- `agents/` — optional private personas.
+
+Start a project in a private copy:
 
 ```bash
 python tools/new_project.py "My Project"
@@ -29,8 +40,15 @@ python tools/new_project.py "My Project"
 
 The `example-project` folder shows the expected structure.
 
-## Before publishing or contributing
+## Before publishing or contributing upstream
 
-If you make your copy/fork public or send changes back upstream, delete personal `mine/` content first. Do not publish manuscripts, research, private prompts, project handoffs, client/user data, or personal settings. Run `python tools/public_boundary_check.py` against the public-upstream shape before publication.
+Remove all personal/project material and return the public shape to template/example-only. Never publish manuscripts, research, private prompts, project handoffs, client/user data, personal settings, or real project artifacts.
+
+Run:
+
+```bash
+python tools/public_boundary_check.py
+python tools/privacy_scan.py .
+```
 
 See `PUBLIC_BOUNDARY.md` for the canonical policy.

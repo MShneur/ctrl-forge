@@ -12,6 +12,8 @@ jobs:
           python-version: "3.x"
       - name: Compile tools
         run: python -m compileall tools
+      - name: Test public boundary guard
+        run: python tools/public_boundary_check.py --self-test
       - name: Enforce canonical public boundary
         if: github.repository == 'MShneur/ctrl-forge'
         run: python tools/public_boundary_check.py

@@ -1,0 +1,20 @@
+schema: ctrl-forge-repo-mode-v1
+mode: public-template-upstream
+canonical_public_repository: MShneur/ctrl-forge
+personal_content_allowed: false
+
+# THIS FILE SHIPS IN PUBLIC MODE ON PURPOSE.
+#
+# In the canonical public MShneur/ctrl-forge repository:
+# - do not change mode;
+# - never add real projects, research, manuscripts, handoffs, private prompts,
+#   private settings, client/user data, or other personal work;
+# - only reusable system files and explicitly allowlisted synthetic examples belong here.
+#
+# AFTER you make your own PRIVATE copy/template instance:
+# 1. verify the new repository is private;
+# 2. change only the mode below to: private-copy
+# 3. then keep your real work under mine/ in that private copy.
+#
+# If a copy will be public, leave this file in public-template-upstream mode and
+# keep the repository template/example-only.

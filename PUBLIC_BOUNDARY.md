@@ -1,35 +1,73 @@
 # Public Boundary Policy
 
-`MShneur/ctrl-forge` is the **public template/system repository**. It must never contain the owner's personal project files, manuscripts, research, private prompts, private settings, client/user data, or other personal work product.
+`MShneur/ctrl-forge` is the **canonical public template/system repository**. It is not a project workspace.
 
-## Public upstream rule
+## Hard rule
 
-The public upstream may contain only reusable system files plus deliberately public examples/templates. Under `mine/`, the only tracked content allowed in the public upstream is:
+**No personal or project-specific material belongs in this repository.**
 
-- `mine/README.md`
-- `mine/settings.yaml` as the generic template/default
-- `mine/projects/example-project/**`
+That includes, without limitation:
 
-Any other tracked path under `mine/` is a policy violation and must fail CI.
+- real project files or project directories;
+- manuscripts, books, artwork production rules, research, notes, plans, roadmaps, or handoffs;
+- private prompts, settings, credentials, client/user data, or generated artifacts derived from private work;
+- payloads copied from Personal Forge or any other private repository;
+- project-specific content placed anywhere in the repository, not only under `mine/`.
 
-## Copies and forks
+The canonical public upstream may contain only reusable CTRL-FORGE system files plus deliberately synthetic public templates/examples that are explicitly allowlisted by `tools/public_boundary_check.py`.
 
-CTRL-FORGE is designed to be copied into a **private** repository for real use. In a private copy, users may keep their personal work under `mine/` and track it normally.
+## Repository mode
 
-Before making a copy/fork public, publishing it, or contributing changes back upstream, remove all personal `mine/` content and verify that only the public template/example allowlist remains. If personal material was committed to a public copy by mistake, remove it from the public tree immediately and assess whether Git history also needs rewriting.
+`REPO_MODE.yaml` ships with:
 
-## Agent and automation rule
+```yaml
+mode: public-template-upstream
+```
+
+That value is intentional for this public repository and must remain unchanged here.
+
+### When someone makes a private copy
+
+CTRL-FORGE is designed to be copied into a **private repository** for real use. After making a copy:
+
+1. verify the new repository is private;
+2. change `REPO_MODE.yaml` to `mode: private-copy`;
+3. only then place real personal/project work under `mine/` in that private copy.
+
+If the copy will remain public, leave it in `public-template-upstream` mode and keep it template/example-only.
+
+## Public upstream allowlist
+
+The public boundary is repository-wide and fail-closed. `tools/public_boundary_check.py` permits only explicitly listed reusable system paths and synthetic example paths. A new arbitrary root file or directory is rejected until it is deliberately reviewed and added to the public allowlist.
+
+Under `mine/`, public upstream allows only:
+
+- `mine/README.md`;
+- `mine/settings.yaml` as generic/default template data;
+- `mine/projects/example-project/**` as synthetic example content.
+
+Real `mine/projects/<project>/**` content is forbidden upstream.
+
+Top-level `projects/**` is also forbidden. There is no public project-workspace directory in canonical CTRL-FORGE.
+
+## Agents and automation
 
 Agents, bots, scheduled workers, Repo Nanny, scripts, and maintainers must treat this boundary as fail-closed:
 
-- never copy project payloads from Personal Forge or any other private repo into public `ctrl-forge`;
-- never use `mine/` in public upstream as a project handoff destination;
-- never push generated manuscripts, research corpora, private prompts, or project artifacts here;
-- when uncertain whether material is personal, stop and require human approval before publication;
-- public examples must be synthetic/generic and intentionally designated as examples.
+- never copy project payloads from Personal Forge or another private source into public `ctrl-forge`;
+- never use public `ctrl-forge` as a handoff destination for real work;
+- never infer that a path is safe merely because it sits outside `mine/`;
+- when uncertain whether material is personal or project-specific, do not publish it;
+- before every public push, run `python tools/public_boundary_check.py` and `python tools/privacy_scan.py .`.
 
-## Enforcement
+## Accidental publication
 
-`tools/public_boundary_check.py` is run by GitHub Actions for the canonical public upstream and fails if tracked `mine/` paths exceed the explicit allowlist.
+If personal/project material reaches the public repository:
 
-This policy is a publication boundary, not a statement that private copies should stop tracking their own work.
+1. preserve any needed private copy in the appropriate private repository first;
+2. remove the material from the public tree immediately;
+3. assess and, when appropriate, rewrite reachable Git history;
+4. strengthen the boundary test that failed to catch it;
+5. assume copies, caches, clones, or indexes may already exist and do not claim deletion can recall them.
+
+This policy governs the canonical public upstream. Private copies may track their owners' real work after they deliberately switch `REPO_MODE.yaml` to `private-copy`.
