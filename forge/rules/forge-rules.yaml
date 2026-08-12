@@ -1,13 +1,29 @@
-# The rules. Read by two things: the validator script (tools/validate_forge.py)
-# and any AI following AGENTS.md. Same file, so they can't drift apart.
-# If the script can't run, an AI walks these by hand and says so in the handoff.
+# The rules. Read by the validator and any AI following AGENTS.md.
+# If the script cannot run, an AI walks these by hand and says so in the handoff.
 
 schema_version: 1
 
 rules:
 
+  - id: public-upstream-never-stores-real-work
+    check: >
+      If REPO_MODE.yaml is public-template-upstream, no real project, manuscript,
+      research, handoff, production rule, private prompt, private setting,
+      client/user data, or other project-specific payload may be stored anywhere
+      in the repository. Only explicitly allowlisted reusable system files and
+      synthetic examples are permitted.
+    why: The canonical upstream is public and must fail closed against accidental project leakage.
+    severity: error
+
+  - id: private-work-requires-private-copy-mode
+    check: >
+      Real project creation is allowed only after a separately created repository
+      is verified private and REPO_MODE.yaml is changed to private-copy.
+    why: A deliberate mode transition makes the public/private boundary explicit before project data is created.
+    severity: error
+
   - id: every-project-has-a-handoff
-    check: Every project folder contains a HANDOFF.md.
+    check: Every real project folder in a private copy contains a HANDOFF.md.
     why: The handoff is the whole point. No handoff, no memory between sessions.
     severity: error
 
@@ -16,8 +32,7 @@ rules:
       Before creating a file, look at what's already in the target folder.
       If something already covers that purpose, update it instead of adding
       a near-duplicate.
-    why: This is the anti-sprawl rule. Stops the folder filling with
-         report-v2-FINAL-actual-final.md
+    why: This is the anti-sprawl rule.
     severity: warning
 
   - id: final-work-stays-out-of-research
@@ -27,16 +42,14 @@ rules:
 
   - id: check-before-create
     check: >
-      When starting work, list the project folder first. Continue existing
-      work before starting a parallel copy of it.
-    why: Two AIs (or the same one twice) shouldn't fork the same task into
-         two files that then disagree.
+      When starting work in a private copy, list the project folder first.
+      Continue existing work before starting a parallel copy of it.
+    why: Two workers should not silently fork the same task into conflicting files.
     severity: warning
 
   - id: nothing-final-leaves-without-a-human
     check: >
       Anything marked final does not get published, pushed to a public repo,
       or shipped outside the project without a human approving it.
-    why: Draft work escaping to the world is the expensive mistake. A human
-         is the gate.
+    why: Human review is the publication gate.
     severity: error

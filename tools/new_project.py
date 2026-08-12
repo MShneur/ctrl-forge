@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Create a new project folder. Stdlib only. No dependencies.
-
-Reads folder names from forge/forge-config.yaml when possible, and falls back
-to sane defaults if that file is missing or PyYAML isn't installed — so this
-never breaks just because something is absent.
-"""
+"""Create a new project folder in a deliberate private CTRL-FORGE copy."""
 
 from __future__ import annotations
 
@@ -14,7 +9,6 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Defaults. Used if config can't be read. Keep in sync with forge-config.yaml.
 DEFAULTS = {
     "projects_dir": "mine/projects",
     "buckets": ["research", "decisions", "deliverables"],
@@ -23,14 +17,24 @@ DEFAULTS = {
 }
 
 
+def repo_mode(repo: Path) -> str:
+    mode_path = repo / "REPO_MODE.yaml"
+    if not mode_path.is_file():
+        return ""
+    for raw in mode_path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line.startswith("mode:"):
+            return line.split(":", 1)[1].strip().strip('"\'')
+    return ""
+
+
 def load_config(repo: Path) -> dict:
-    """Best-effort config read. Never raises — falls back to DEFAULTS."""
+    """Best-effort config read. Never raises; falls back to DEFAULTS."""
     cfg = dict(DEFAULTS)
     config_path = repo / "forge" / "forge-config.yaml"
     if not config_path.is_file():
         return cfg
     text = config_path.read_text(encoding="utf-8")
-    # Try PyYAML if present; otherwise a tiny hand-parser for the keys we need.
     try:
         import yaml  # type: ignore
         data = yaml.safe_load(text) or {}
@@ -48,12 +52,10 @@ def load_config(repo: Path) -> dict:
         return cfg
     except ImportError:
         pass
-    # No PyYAML: pull the flat scalar keys we care about with regex.
     for key in ("projects_dir", "handoff_file", "state_file"):
         m = re.search(rf"^{key}:\s*(\S+)\s*$", text, re.MULTILINE)
         if m:
             cfg[key] = m.group(1)
-    # buckets block: capture "key: value" lines under "buckets:"
     block = re.search(r"^buckets:\s*$((?:\n[ \t]+\S.*)+)", text, re.MULTILINE)
     if block:
         vals = re.findall(r"^\s+\w+:\s*(\S+)", block.group(1), re.MULTILINE)
@@ -71,14 +73,23 @@ def slugify(value: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Create a CTRL-FORGE project.")
+    parser = argparse.ArgumentParser(description="Create a CTRL-FORGE project in a private copy.")
     parser.add_argument("name", help="Human-readable project name")
     parser.add_argument("--slug", help="Optional project ID")
     args = parser.parse_args()
 
     repo = Path(__file__).resolve().parents[1]
-    cfg = load_config(repo)
+    mode = repo_mode(repo)
+    if mode != "private-copy":
+        print(
+            "Refusing to create a real project because REPO_MODE.yaml is not set to 'private-copy'.\n"
+            "Canonical/public CTRL-FORGE is template-only. First create a PRIVATE copy, verify its visibility, "
+            "then change REPO_MODE.yaml to 'mode: private-copy'.",
+            file=sys.stderr,
+        )
+        return 2
 
+    cfg = load_config(repo)
     project_id = slugify(args.slug or args.name)
     projects_root = (repo / cfg["projects_dir"]).resolve()
     destination = (projects_root / project_id).resolve()
@@ -93,7 +104,6 @@ def main() -> int:
     created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     name = args.name.strip()
 
-    # Build the minimal skeleton: README, state, handoff, three buckets.
     destination.mkdir(parents=True)
     (destination / cfg["state_file"]).write_text(
         f"id: {project_id}\n"
