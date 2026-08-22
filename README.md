@@ -4,7 +4,7 @@
 
 CTRL-FORGE is a durable project-memory system you copy into a private repository for real work.
 
-> **IMPORTANT: THIS REPOSITORY IS PUBLIC.** `MShneur/ctrl-forge` is the reusable template/system upstream, not a place for anyone's real projects. Do not put personal projects, manuscripts, research, private prompts, handoffs, production files, user/client data, or other private work anywhere in this repository.
+> **IMPORTANT: THIS REPOSITORY IS PUBLIC.** `MShneur/ctrl-forge` is the reusable template/system upstream, not a place for anyone's real projects. Do not put personal projects, manuscripts, research, private prompts, handoffs, production files, user/client data, credentials, API keys, tokens, or other private work anywhere in this repository.
 
 Read [`REPO_MODE.yaml`](REPO_MODE.yaml) and [`PUBLIC_BOUNDARY.md`](PUBLIC_BOUNDARY.md) before writing.
 
@@ -97,5 +97,22 @@ See **[UPDATING.md](UPDATING.md)**. Nothing auto-updates.
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Public contributions must contain reusable system/template material only.
+
+---
+
+## The AI Duct Tape Collection
+
+The future showed up early and forgot the manual. These are different strips of duct tape for the parts between “AI can do that” and “why am I still doing this by hand?”
+
+- **[CTRL-FORGE](https://github.com/MShneur/ctrl-forge)** *(this repo)* — The memory. Your AI forgot everything; the repo didn't.
+- **[CTRL-AI](https://github.com/MShneur/CTRL-AI)** — The governance. Evidence, dissent, uncertainty, and rules for how the AI behaves.
+- **[R-Duck](https://github.com/MShneur/R-Duck)** — The operator. Turns fuzzy intent into structured autonomous work.
+- **[Agents of AI](https://github.com/MShneur/Agents-of-AI)** — The cast. Reusable agents, personas, workflows, techniques, teams, and failure modes.
+- **[Ghost in the Loop](https://github.com/MShneur/ghost-in-the-loop)** — The handoff lane. Keeps multi-step AI work moving and exports/hands it off cleanly.
+- **[Control Walkthrough](https://github.com/MShneur/Ctrl-Walkthrough)** — The hands. Finds the page, clicks safe buttons, fills boring fields, verifies the result, and gets out of the way.
+
+Each project keeps its own license and security boundary. **None of the public repositories are places to store credentials or private project data.**
+
+---
 
 MIT licensed.
